@@ -7,10 +7,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.hateoas.MediaTypes;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-import org.springframework.hateoas.hal.Jackson2HalModule;
-import org.springframework.hateoas.mvc.TypeReferences;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.mediatype.hal.Jackson2HalModule;
+import org.springframework.hateoas.server.core.TypeReferences;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
@@ -52,21 +52,21 @@ public class AsyncGetService {
     }
 
     @Async
-    public <T> Future<Resource<T>> getResource(URI url, TypeReferences.ResourceType<T> type) throws
+    public <T> Future<EntityModel<T>> getResource(URI url, TypeReferences.EntityModelType<T> type) throws
             InterruptedException, IOException {
         RequestEntity<Void> request = RequestEntity.get(url).accept(HAL_JSON).build();
         LOG.debug("Requesting: " + request.toString());
-        Resource<T> body = restProxyTemplate.getRestTemplate().exchange(request, type).getBody();
+        EntityModel<T> body = restProxyTemplate.getRestTemplate().exchange(request, type).getBody();
         LOG.debug("Received: " + body.toString());
         return new AsyncResult<>(body);
     }
 
     @Async
-    public <T> Future<Resources<T>> getDataList(URI url, TypeReferences.ResourcesType<T> type) throws
+    public <T> Future<CollectionModel<T>> getDataList(URI url, TypeReferences.CollectionModelType<T> type) throws
             InterruptedException, IOException {
         RequestEntity<Void> request = RequestEntity.get(url).accept(HAL_JSON).build();
         LOG.debug("Requesting: " + request.toString());
-        Resources<T> body = restProxyTemplate.getRestTemplate().exchange(request, type).getBody();
+        CollectionModel<T> body = restProxyTemplate.getRestTemplate().exchange(request, type).getBody();
         LOG.debug("Received: " + body.toString());
         return new AsyncResult<>(body);
     }

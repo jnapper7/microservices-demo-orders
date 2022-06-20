@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.data.rest.webmvc.RepositoryRestController;
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.mvc.TypeReferences;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.hateoas.server.core.TypeReferences;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -59,14 +59,14 @@ public class OrdersController {
 
 
             LOG.debug("Starting calls");
-            Future<Resource<Address>> addressFuture = asyncGetService.getResource(item.address, new TypeReferences
-                    .ResourceType<Address>() {
+            Future<EntityModel<Address>> addressFuture = asyncGetService.getResource(item.address, new TypeReferences
+                    .EntityModelType<Address>() {
             });
-            Future<Resource<Customer>> customerFuture = asyncGetService.getResource(item.customer, new TypeReferences
-                    .ResourceType<Customer>() {
+            Future<EntityModel<Customer>> customerFuture = asyncGetService.getResource(item.customer, new TypeReferences
+                    .EntityModelType<Customer>() {
             });
-            Future<Resource<Card>> cardFuture = asyncGetService.getResource(item.card, new TypeReferences
-                    .ResourceType<Card>() {
+            Future<EntityModel<Card>> cardFuture = asyncGetService.getResource(item.card, new TypeReferences
+                    .EntityModelType<Card>() {
             });
             Future<List<Item>> itemsFuture = asyncGetService.getDataList(item.items, new
                     ParameterizedTypeReference<List<Item>>() {
@@ -97,7 +97,7 @@ public class OrdersController {
             }
 
             // Ship
-            String customerId = parseId(customerFuture.get(timeout, TimeUnit.SECONDS).getId().getHref());
+            String customerId = customerFuture.get(timeout, TimeUnit.SECONDS).getContent().getId();
             Future<Shipment> shipmentFuture = asyncGetService.postResource(config.getShippingUri(), new Shipment
                     (customerId), new ParameterizedTypeReference<Shipment>() {
             });
@@ -140,7 +140,7 @@ public class OrdersController {
 //    ResponseEntity<?> getOrders() {
 //        List<CustomerOrder> customerOrders = customerOrderRepository.findAll();
 //
-//        Resources<CustomerOrder> resources = new Resources<>(customerOrders);
+//        CollectionModel<CustomerOrder> resources = new CollectionModel<>(customerOrders);
 //
 //        resources.forEach(r -> r);
 //

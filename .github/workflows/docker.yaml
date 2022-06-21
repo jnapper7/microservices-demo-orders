@@ -31,8 +31,8 @@ jobs:
         with:
           # list of Docker images to use as base name for tags
           images: |
-            name/app
-            ghcr.io/username/app
+            ${{ github.repository }}
+            ghcr.io/${{ github.repository }}
           # generate Docker tags based on the following events/attributes
           tags: |
             type=ref,event=branch
@@ -67,6 +67,6 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           build-args: |
-            VERSION=latest
-            BUILD_TIMESTAMP=${{ steps.timestamp.outputs.timestamp }}
-            COMMIT_HASH=${{ github.sha }}
+            BUILD_VERSION=latest
+            BUILD_DATE=${{ steps.timestamp.outputs.timestamp }}
+            COMMIT=${{ github.sha }}

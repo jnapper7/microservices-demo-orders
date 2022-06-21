@@ -1,10 +1,11 @@
-FROM openjdk:11.0.15-jre
-
+FROM eclipse-temurin:11
 WORKDIR /usr/src/app
-COPY ./target/*.jar ./app.jar
+COPY ./target/*.jar application.jar
 
-RUN	chown -R ${SERVICE_USER}:${SERVICE_GROUP} ./app.jar
+ARG COMMIT_HASH
+ARG VERSION
+ARG BUILD_TIMESTAMP
 
-USER ${SERVICE_USER}
-
-ENTRYPOINT ["java","-jar","./app.jar", "--port=80"]
+EXPOSE 80
+CMD ["--port=80"]
+ENTRYPOINT ["java", "-jar", "application.jar"]

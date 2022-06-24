@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.hateoas.EntityModel;
 import org.springframework.hateoas.server.core.TypeReferences;
 import org.springframework.http.HttpStatus;
@@ -30,7 +29,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-@RepositoryRestController
+@RestController
 public class OrdersController {
     private final Logger LOG = LoggerFactory.getLogger(getClass());
 

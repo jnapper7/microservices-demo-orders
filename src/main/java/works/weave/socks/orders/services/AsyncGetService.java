@@ -35,6 +35,7 @@ public class AsyncGetService {
 
     private final RestProxyTemplate restProxyTemplate;
 
+    @Autowired
     private final RestTemplate halTemplate;
 
     @Autowired

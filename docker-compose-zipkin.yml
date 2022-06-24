@@ -2,7 +2,9 @@ version: '2'
 
 services:
   orders:
-    image: weaveworksdemos/orders
+    image: microservices-demo-orders
+    build: 
+        context: .
     hostname: orders
     restart: always
     cap_drop:
@@ -14,7 +16,7 @@ services:
       - /tmp:rw,noexec,nosuid
     environment:
       - reschedule=on-node-failure
-      - ZIPKIN=zipkin
+      - SPRING_ZIPKIN_BASEURL=http://zipkin:9411/
     ports:
       - "8082:80"
   orders-db:

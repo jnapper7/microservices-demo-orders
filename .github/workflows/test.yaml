@@ -45,7 +45,7 @@ jobs:
 
       # Build docker image for service
       - name: Build docker image
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v4
         with:
           push: false
           dockerfile: docker/orders/Dockerfile.github
@@ -56,7 +56,7 @@ jobs:
 
       # Build docker image for mock service
       - name: Build mock docker image
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v4
         with:
           push: false
           path: test/json-server/
